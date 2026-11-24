@@ -1,0 +1,36 @@
+# Job k6 exécuté DANS le cluster : il cible directement le Service ClusterIP order-api.
+# Le ConfigMap "k6-scripts" est créé à partir du dossier load-tests/ :
+#   kubectl create configmap k6-scripts -n perf-lab --from-file=load-tests/
+# Les variables SCRIPT / RATE / DURATION / LABEL sont remplacées par scripts/run-load.sh
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-load
+  namespace: perf-lab
+  labels: { app: k6 }
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels: { app: k6 }
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: grafana/k6:1.1.0
+          args: ["run", "--quiet", "/scripts/${SCRIPT}"]
+          env:
+            - { name: TARGET,   value: "http://order-api.perf-lab.svc.cluster.local:8000" }
+            - { name: RATE,     value: "${RATE}" }
+            - { name: DURATION, value: "${DURATION}" }
+            - { name: MAX_RATE, value: "${MAX_RATE}" }
+            - { name: LABEL,    value: "${LABEL}" }
+          volumeMounts:
+            - { name: scripts, mountPath: /scripts }
+          resources:
+            requests: { cpu: 500m, memory: 256Mi }
+            limits:   { memory: 2Gi }
+      volumes:
+        - name: scripts
+          configMap: { name: k6-scripts }

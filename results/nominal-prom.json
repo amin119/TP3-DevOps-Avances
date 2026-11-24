@@ -1,0 +1,43 @@
+{
+  "label": "nominal",
+  "window": {
+    "label": "nominal",
+    "start": 1795522301,
+    "end": 1795522525
+  },
+  "traffic": {
+    "start": 1795522354,
+    "end": 1795522524
+  },
+  "duration_s": 170,
+  "services": {
+    "order-api (serveur)": {
+      "rps": 53.01,
+      "avg_ms": 10.75,
+      "err_pct": 0.0,
+      "p50_ms": 10.71,
+      "p95_ms": 14.29,
+      "p99_ms": 14.91
+    },
+    "A→B (client)": {
+      "rps": 53.09,
+      "avg_ms": 8.66,
+      "err_pct": 0.0,
+      "p50_ms": 8.66,
+      "p95_ms": 11.92,
+      "p99_ms": 12.41
+    },
+    "pricing-engine (serveur)": {
+      "rps": 53.01,
+      "avg_ms": 8.39,
+      "err_pct": 0.0,
+      "p50_ms": 8.48,
+      "p95_ms": 11.67,
+      "p99_ms": 12.34
+    }
+  },
+  "cpu": {
+    "cpu_cores": 0.033,
+    "throttled_pct": 0.0
+  }
+}

@@ -1,0 +1,12 @@
+$ kubectl get ds beyla -n perf-lab -o jsonpath=...   # hostPID, image et capacités Linux
+hostPID:           true
+image:             grafana/beyla:3.42.0
+privileged:        false (non défini)
+capabilities.drop: ["ALL"]
+capabilities.add:  ["BPF","SYS_PTRACE","NET_ADMIN","NET_RAW","PERFMON","DAC_READ_SEARCH","CHECKPOINT_RESTORE","SYS_RESOURCE"]
+
+$ kubectl logs -n perf-lab ds/beyla | grep -E "Beyla|instrumenting process|prometheus"
+12:10:11.572Z level=INFO msg="Grafana Beyla" Version=v3.42.0 Revision=70b1a98 
+12:10:13.608Z level=INFO msg="opening prometheus scrape endpoint" port=9090 path=/metrics
+12:10:14.057Z level=INFO msg="instrumenting process" cmd=/pricing-engine pid=3246 type=go service=""
+12:10:20.184Z level=INFO msg="instrumenting process" cmd=/usr/local/bin/python3.12 pid=3228 type=python service=main

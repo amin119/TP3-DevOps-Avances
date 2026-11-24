@@ -1,0 +1,212 @@
+{
+  "label": "saturation",
+  "window": {
+    "label": "saturation",
+    "start": 1795523203,
+    "end": 1795523629
+  },
+  "traffic": {
+    "start": 1795523212,
+    "end": 1795523626
+  },
+  "steps": [
+    {
+      "target_rps": 25,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 25.2,
+          "avg_ms": 9.02,
+          "err_pct": 0.0,
+          "p50_ms": 8.81,
+          "p95_ms": 10.0,
+          "p99_ms": 12.27
+        },
+        "A→B (client)": {
+          "rps": 25.2,
+          "avg_ms": 6.73,
+          "err_pct": 0.0,
+          "p50_ms": 6.27,
+          "p95_ms": 7.4,
+          "p99_ms": 7.95
+        },
+        "pricing-engine (serveur)": {
+          "rps": 25.2,
+          "avg_ms": 6.49,
+          "err_pct": 0.0,
+          "p50_ms": 6.25,
+          "p95_ms": 7.38,
+          "p99_ms": 7.48
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.045,
+        "throttled_pct": 0.0
+      }
+    },
+    {
+      "target_rps": 50,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 52.34,
+          "avg_ms": 9.66,
+          "err_pct": 0.0,
+          "p50_ms": 8.85,
+          "p95_ms": 11.39,
+          "p99_ms": 40.28
+        },
+        "A→B (client)": {
+          "rps": 52.31,
+          "avg_ms": 7.56,
+          "err_pct": 0.0,
+          "p50_ms": 6.32,
+          "p95_ms": 7.72,
+          "p99_ms": 40.29
+        },
+        "pricing-engine (serveur)": {
+          "rps": 52.34,
+          "avg_ms": 7.03,
+          "err_pct": 0.0,
+          "p50_ms": 6.28,
+          "p95_ms": 7.43,
+          "p99_ms": 25.96
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.071,
+        "throttled_pct": 9.5
+      }
+    },
+    {
+      "target_rps": 75,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 71.89,
+          "avg_ms": 2712.55,
+          "err_pct": 5.26,
+          "p50_ms": 1332.9,
+          "p95_ms": 9952.31,
+          "p99_ms": 10000.0
+        },
+        "A→B (client)": {
+          "rps": 71.46,
+          "avg_ms": 2720.07,
+          "err_pct": 0.0,
+          "p50_ms": 1333.52,
+          "p95_ms": 9951.02,
+          "p99_ms": 10000.0
+        },
+        "pricing-engine (serveur)": {
+          "rps": 71.56,
+          "avg_ms": 1394.72,
+          "err_pct": 0.0,
+          "p50_ms": 430.41,
+          "p95_ms": 7871.71,
+          "p99_ms": 10000.0
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.101,
+        "throttled_pct": 100.0
+      }
+    },
+    {
+      "target_rps": 100,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 55.52,
+          "avg_ms": 6542.27,
+          "err_pct": 24.32,
+          "p50_ms": 6877.17,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "A→B (client)": {
+          "rps": 54.87,
+          "avg_ms": 6531.64,
+          "err_pct": 0.0,
+          "p50_ms": 6848.84,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "pricing-engine (serveur)": {
+          "rps": 56.5,
+          "avg_ms": 2892.76,
+          "err_pct": 0.0,
+          "p50_ms": 621.68,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.1,
+        "throttled_pct": 99.8
+      }
+    },
+    {
+      "target_rps": 125,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 56.86,
+          "avg_ms": 7098.35,
+          "err_pct": 49.1,
+          "p50_ms": 9871.95,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "A→B (client)": {
+          "rps": 56.29,
+          "avg_ms": 7130.54,
+          "err_pct": 0.0,
+          "p50_ms": 9926.65,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "pricing-engine (serveur)": {
+          "rps": 52.09,
+          "avg_ms": 3262.6,
+          "err_pct": 0.0,
+          "p50_ms": 528.43,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.1,
+        "throttled_pct": 99.7
+      }
+    },
+    {
+      "target_rps": 150,
+      "services": {
+        "order-api (serveur)": {
+          "rps": 54.9,
+          "avg_ms": 8071.67,
+          "err_pct": 39.12,
+          "p50_ms": 8725.7,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "A→B (client)": {
+          "rps": 54.16,
+          "avg_ms": 8099.05,
+          "err_pct": 0.0,
+          "p50_ms": 8724.38,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        },
+        "pricing-engine (serveur)": {
+          "rps": 54.72,
+          "avg_ms": 3054.83,
+          "err_pct": 0.0,
+          "p50_ms": 966.0,
+          "p95_ms": 10000.0,
+          "p99_ms": 10000.0
+        }
+      },
+      "cpu": {
+        "cpu_cores": 0.081,
+        "throttled_pct": 99.6
+      }
+    }
+  ]
+}

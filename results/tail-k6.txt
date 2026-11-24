@@ -1,0 +1,14 @@
+
+================ k6 — scénario « tail » ================
+  requêtes        : 9000
+  débit (RPS)     : 51.79
+  moyenne         : 47.03 ms
+  p50 (médiane)   : 18.44 ms
+  p90             : 19.70 ms
+  p95             : 28.44 ms
+  p99             : 603.82 ms
+  max             : 610.55 ms
+  erreurs HTTP    : 0 %
+  itér. abandonnées: 0
+==============================================================
+K6_SUMMARY_JSON {"scenario":"tail","requests":9000,"rps":51.79,"avg_ms":47.03,"p50_ms":18.44,"p90_ms":19.7,"p95_ms":28.44,"p99_ms":603.82,"max_ms":610.55,"error_pct":0,"dropped_iterations":0}

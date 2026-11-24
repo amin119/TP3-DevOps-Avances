@@ -1,0 +1,13 @@
+# Cluster kind mono-nœud pour le TP eBPF (perf-lab)
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: perf-lab
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.33.1
+    # Montage du système de fichiers kernel nécessaire aux sondes eBPF
+    extraMounts:
+      - hostPath: /sys/kernel/debug
+        containerPath: /sys/kernel/debug
+      - hostPath: /sys/fs/bpf
+        containerPath: /sys/fs/bpf

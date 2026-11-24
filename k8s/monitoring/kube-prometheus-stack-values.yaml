@@ -1,0 +1,42 @@
+# kube-prometheus-stack — configuration minimale pour le TP (namespace perf-lab)
+alertmanager:
+  enabled: false
+nodeExporter:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+defaultRules:
+  create: false
+kubeControllerManager: { enabled: false }
+kubeScheduler: { enabled: false }
+kubeEtcd: { enabled: false }
+kubeProxy: { enabled: false }
+coreDns: { enabled: false }
+kubeApiServer: { enabled: false }
+# kubelet conservé : cAdvisor fournit l'usage CPU et le throttling des conteneurs
+kubelet:
+  enabled: true
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 5s
+    evaluationInterval: 5s
+    retention: 2d
+    # Découvrir tous les ServiceMonitor, pas seulement ceux du chart
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    resources:
+      requests: { cpu: 200m, memory: 512Mi }
+
+grafana:
+  adminPassword: admin
+  defaultDashboardsEnabled: false
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: perf-lab
+  grafana.ini:
+    auth.anonymous:
+      enabled: true
+      org_role: Viewer

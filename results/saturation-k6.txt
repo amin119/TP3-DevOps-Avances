@@ -1,0 +1,15 @@
+time="2026-11-24T12:30:20Z" level=warning msg="Insufficient VUs, reached 400 active VUs and cannot initialize more" executor=ramping-arrival-rate scenario=ramp_rps
+
+================ k6 — scénario « saturation » ================
+  requêtes        : 22489
+  débit (RPS)     : 53.19
+  moyenne         : 4170.32 ms
+  p50 (médiane)   : 2613.66 ms
+  p90             : 10007.47 ms
+  p95             : 10022.47 ms
+  p99             : 14145.23 ms
+  max             : 17187.38 ms
+  erreurs HTTP    : 19.44 %
+  itér. abandonnées: 13635
+==============================================================
+K6_SUMMARY_JSON {"scenario":"saturation","requests":22489,"rps":53.19,"avg_ms":4170.32,"p50_ms":2613.66,"p90_ms":10007.47,"p95_ms":10022.47,"p99_ms":14145.23,"max_ms":17187.38,"error_pct":19.44,"dropped_iterations":13635}

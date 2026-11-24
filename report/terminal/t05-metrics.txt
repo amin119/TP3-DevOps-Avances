@@ -1,0 +1,28 @@
+$ curl -s http://beyla.perf-lab:9090/metrics | grep http_.*_request_duration_seconds   (extrait, labels k8s_* masqués)
+# HELP http_server_request_duration_seconds duration of HTTP service calls from the server side, in seconds
+# TYPE http_server_request_duration_seconds histogram
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.01"} 11415
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.015"} 22388
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.02"} 30828
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.05"} 31180
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.6"} 32769
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="0.65"} 33374
+http_server_request_duration_seconds_bucket{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200",le="+Inf"} 44273
+http_server_request_duration_seconds_sum{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200"} 49361.077289823894
+http_server_request_duration_seconds_count{service_name="order-api",http_request_method="POST",http_route="/order",http_response_status_code="200"} 44273
+
+# ... (même histogramme pour pricing-engine, http_route="/price") ...
+http_server_request_duration_seconds_count{service_name="pricing-engine",http_request_method="GET",http_route="/price",http_response_status_code="200"} 22337
+
+# HELP http_client_request_duration_seconds duration of HTTP service calls from the client side, in seconds
+# TYPE http_client_request_duration_seconds histogram
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.01"} 18901
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.015"} 22468
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.02"} 31054
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.05"} 31186
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.6"} 32792
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="0.65"} 33393
+http_client_request_duration_seconds_bucket{service_name="order-api",http_request_method="GET",http_response_status_code="200",le="+Inf"} 44272
+http_client_request_duration_seconds_sum{service_name="order-api",http_request_method="GET",http_response_status_code="200"} 49166.0121029732
+http_client_request_duration_seconds_count{service_name="order-api",http_request_method="GET",http_response_status_code="200"} 44272
+

@@ -1,0 +1,13 @@
+$ scripts/scenario.sh nominal && scripts/run-load.sh nominal order-constant.js 50 3m
+================ k6 — scénario « nominal » ================
+  requêtes        : 9001
+  débit (RPS)     : 52.46
+  moyenne         : 11.39 ms
+  p50 (médiane)   : 11.15 ms
+  p90             : 13.21 ms
+  p95             : 13.54 ms
+  p99             : 14.92 ms
+  max             : 284.03 ms
+  erreurs HTTP    : 0 %
+  itér. abandonnées: 0
+==============================================================

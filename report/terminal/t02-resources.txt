@@ -1,0 +1,22 @@
+$ helm list -n perf-lab
+NAME	NAMESPACE	REVISION	UPDATED                               	STATUS  	CHART                       	APP VERSION
+kps 	perf-lab 	1       	2026-11-24 11:46:06.90580197 +0000 UTC	deployed	kube-prometheus-stack-77.0.0	v0.85.0    
+
+$ kubectl get deploy,ds,svc -n perf-lab
+NAME                                                 READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kps-grafana                          1/1     1            1           26m
+deployment.apps/kps-kube-prometheus-stack-operator   1/1     1            1           26m
+deployment.apps/order-api                            1/1     1            1           27m
+deployment.apps/pricing-engine                       1/1     1            1           27m
+
+NAME                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/beyla   1         1         1       1            1           <none>          24m
+
+NAME                                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
+service/beyla                                  ClusterIP   10.96.150.80    <none>        9090/TCP            24m
+service/kps-grafana                            ClusterIP   10.96.148.98    <none>        80/TCP              26m
+service/kps-kube-prometheus-stack-operator     ClusterIP   10.96.56.58     <none>        443/TCP             26m
+service/kps-kube-prometheus-stack-prometheus   ClusterIP   10.96.212.191   <none>        9090/TCP,8080/TCP   26m
+service/order-api                              ClusterIP   10.96.57.13     <none>        8000/TCP            27m
+service/pricing-engine                         ClusterIP   10.96.92.110    <none>        8080/TCP            27m
+service/prometheus-operated                    ClusterIP   None            <none>        9090/TCP            26m

@@ -1,0 +1,12 @@
+$ curl -s -X POST http://order-api.perf-lab:8000/order -H "Content-Type: application/json" \
+       -d '{"customer_id":"C-42","items":[{"sku":"SKU-1001","quantity":3},{"sku":"SKU-2002","quantity":1}]}'
+{"order_id":"805a3b72-efa5-44c2-a403-f529a76c1db1","customer_id":"C-42","items":2,"total_quantity":4,"unit_price":19.99,"total_price":79.96,"currency":"EUR","status":"CONFIRMED"}
+--> HTTP 200 en 0.030844s
+
+$ curl -s "http://pricing-engine.perf-lab:8080/price?sku=SKU-1001&qty=4"      # appel direct du service B
+{"currency":"EUR","quantity":4,"sku":"SKU-1001","unit_price":19.99}
+--> HTTP 200
+
+$ curl -s -X POST http://order-api.perf-lab:8000/order -d '{"customer_id":"","items":[]}'     # validation
+{"detail":[{"type":"string_too_short","loc":["body","customer_id"],"msg":"String should have at least 1 character","input":"","ctx":{"min_length":1}},
+--> HTTP 422

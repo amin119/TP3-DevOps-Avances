@@ -1,0 +1,14 @@
+
+================ k6 — scénario « errors » ================
+  requêtes        : 9001
+  débit (RPS)     : 52.58
+  moyenne         : 11.10 ms
+  p50 (médiane)   : 11.13 ms
+  p90             : 13.22 ms
+  p95             : 13.53 ms
+  p99             : 14.56 ms
+  max             : 97.20 ms
+  erreurs HTTP    : 9.85 %
+  itér. abandonnées: 0
+==============================================================
+K6_SUMMARY_JSON {"scenario":"errors","requests":9001,"rps":52.58,"avg_ms":11.1,"p50_ms":11.13,"p90_ms":13.22,"p95_ms":13.53,"p99_ms":14.56,"max_ms":97.2,"error_pct":9.85,"dropped_iterations":0}

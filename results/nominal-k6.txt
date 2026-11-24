@@ -1,0 +1,14 @@
+
+================ k6 — scénario « nominal » ================
+  requêtes        : 9001
+  débit (RPS)     : 52.46
+  moyenne         : 11.39 ms
+  p50 (médiane)   : 11.15 ms
+  p90             : 13.21 ms
+  p95             : 13.54 ms
+  p99             : 14.92 ms
+  max             : 284.03 ms
+  erreurs HTTP    : 0 %
+  itér. abandonnées: 0
+==============================================================
+K6_SUMMARY_JSON {"scenario":"nominal","requests":9001,"rps":52.46,"avg_ms":11.39,"p50_ms":11.15,"p90_ms":13.21,"p95_ms":13.54,"p99_ms":14.92,"max_ms":284.03,"error_pct":0,"dropped_iterations":0}

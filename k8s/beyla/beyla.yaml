@@ -1,0 +1,155 @@
+# Grafana Beyla — auto-instrumentation eBPF (DaemonSet) des processus du namespace perf-lab
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: beyla
+  namespace: perf-lab
+---
+# Lecture des métadonnées Kubernetes (décoration des métriques : service_name, k8s_*)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: beyla
+rules:
+  - apiGroups: ["apps"]
+    resources: ["replicasets", "deployments", "daemonsets", "statefulsets"]
+    verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "nodes"]
+    verbs: ["list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: beyla
+subjects:
+  - kind: ServiceAccount
+    name: beyla
+    namespace: perf-lab
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: beyla
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: beyla-config
+  namespace: perf-lab
+data:
+  beyla-config.yml: |
+    # Processus à instrumenter : uniquement les 2 microservices du TP
+    # (la section "instrument" utilise des motifs glob, pas des regex)
+    discovery:
+      instrument:
+        - k8s_namespace: perf-lab
+          k8s_deployment_name: order-api
+        - k8s_namespace: perf-lab
+          k8s_deployment_name: pricing-engine
+    attributes:
+      kubernetes:
+        enable: true
+    # Le chemin des routes est conservé tel quel (/order, /price)
+    routes:
+      unmatched: path
+    # Export des métriques au format Prometheus sur :9090/metrics
+    prometheus_export:
+      port: 9090
+      path: /metrics
+      features:
+        - application
+      # Buckets affinés pour mesurer précisément p50 (~20 ms) et p99 (~600 ms)
+      buckets:
+        duration_histogram: [0.002, 0.005, 0.0075, 0.01, 0.0125, 0.015, 0.0175, 0.02, 0.0225, 0.025, 0.03, 0.035, 0.04, 0.05, 0.075, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.625, 0.65, 0.7, 0.8, 1, 1.5, 2, 3, 5, 10]
+    log_level: info
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: beyla
+  namespace: perf-lab
+  labels: { app: beyla }
+spec:
+  selector:
+    matchLabels: { app: beyla }
+  template:
+    metadata:
+      labels: { app: beyla }
+    spec:
+      serviceAccountName: beyla
+      hostPID: true            # voir les processus du nœud pour y attacher les sondes
+      containers:
+        - name: beyla
+          # Beyla >= 2.6 attache une kprobe sur le hook LSM security_socket_accept :
+          # il faut un noyau compilé avec CONFIG_SECURITY_NETWORK (OK sur WSL2 6.18).
+          # Sur l'ancien noyau WSL2 5.15 (sans ce hook), utiliser grafana/beyla:2.5.8.
+          image: grafana/beyla:3.42.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - { name: BEYLA_CONFIG_PATH, value: /config/beyla-config.yml }
+            - { name: BEYLA_KUBE_CLUSTER_NAME, value: perf-lab }
+            - name: BEYLA_KUBE_NODE_NAME
+              valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+          ports:
+            - { name: metrics, containerPort: 9090 }
+          securityContext:
+            runAsUser: 0
+            readOnlyRootFilesystem: true
+            # Pas de mode privilégié : uniquement les capacités Linux nécessaires
+            capabilities:
+              drop: ["ALL"]
+              add:
+                - BPF                 # charger les programmes eBPF et créer les maps
+                - SYS_PTRACE          # inspecter les binaires des processus (uprobes)
+                - NET_ADMIN           # sondes réseau (sockets, TC)
+                - NET_RAW             # sockets raw (socket filter)
+                - PERFMON             # attacher kprobes / uprobes / tracepoints
+                - DAC_READ_SEARCH     # lire /proc/<pid>/exe des autres processus
+                - CHECKPOINT_RESTORE  # accès aux liens /proc/<pid>/map_files
+                - SYS_RESOURCE        # lever la limite memlock
+          volumeMounts:
+            - { name: config, mountPath: /config }
+            - { name: var-run-beyla, mountPath: /var/run/beyla }
+          resources:
+            requests: { cpu: 100m, memory: 128Mi }
+            limits:   { memory: 1Gi }
+      volumes:
+        - name: config
+          configMap: { name: beyla-config }
+        - name: var-run-beyla
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: beyla
+  namespace: perf-lab
+  labels: { app: beyla }
+spec:
+  type: ClusterIP
+  selector: { app: beyla }
+  ports:
+    - { name: metrics, port: 9090, targetPort: metrics }
+---
+# Déclaration de la cible de collecte pour Prometheus (Prometheus Operator)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: beyla
+  namespace: perf-lab
+  labels: { app: beyla }
+spec:
+  selector:
+    matchLabels: { app: beyla }
+  namespaceSelector:
+    matchNames: [perf-lab]
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 5s
+      # Le label "namespace" reflète le namespace du service instrumenté
+      metricRelabelings:
+        - sourceLabels: [k8s_namespace_name]
+          regex: (.+)
+          targetLabel: namespace
+          action: replace

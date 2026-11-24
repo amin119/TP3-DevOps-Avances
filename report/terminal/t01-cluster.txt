@@ -1,0 +1,14 @@
+$ kind get clusters
+perf-lab
+
+$ kubectl get nodes -o wide   (colonnes principales)
+NAME                     STATUS   VERSION   OS                               KERNEL                              RUNTIME
+perf-lab-control-plane   Ready    v1.33.1   Debian GNU/Linux 12 (bookworm)   6.18.58.1-microsoft-standard-WSL2   containerd://2.1.1
+
+$ uname -r && ls -l /sys/kernel/btf/vmlinux        # dans le nœud kind : BTF disponible
+6.18.58.1-microsoft-standard-WSL2
+-r--r--r-- 1 root root 6037569 Nov 24 11:49 /sys/kernel/btf/vmlinux
+
+$ kubectl get ns perf-lab
+NAME       STATUS   AGE
+perf-lab   Active   27m

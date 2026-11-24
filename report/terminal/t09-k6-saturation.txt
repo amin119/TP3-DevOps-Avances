@@ -1,0 +1,14 @@
+$ scripts/scenario.sh saturation && scripts/run-load.sh saturation order-ramp.js 0 0 150   # limits.cpu=100m
+WARN "Insufficient VUs, reached 400 active VUs and cannot initialize more"
+================ k6 — scénario « saturation » ================
+  requêtes        : 22489
+  débit (RPS)     : 53.19
+  moyenne         : 4170.32 ms
+  p50 (médiane)   : 2613.66 ms
+  p90             : 10007.47 ms
+  p95             : 10022.47 ms
+  p99             : 14145.23 ms
+  max             : 17187.38 ms
+  erreurs HTTP    : 19.44 %
+  itér. abandonnées: 13635
+==============================================================
